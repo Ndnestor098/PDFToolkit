@@ -5,7 +5,7 @@ async function fileGet() {
     const file = fileInput.files[0];
     const load = document.getElementById("loading");
 
-    await handleFileUpload(file, load);
+    await getJSON(file, load);
 }
 
 // Manejar la selección de archivo por botón
@@ -40,75 +40,81 @@ dropArea.addEventListener('drop', async (event) => {
     document.getElementById('uploadButton').removeEventListener('click', fileGet); 
 
     document.getElementById('uploadButton').addEventListener('click', async function() {
-        await handleFileUpload(file, load);
+        await getJSON(file, load);
     });
 });
 
-async function handleFileUpload(file, load) {
-    if (file && file.type === 'text/plain') {
-        const reader = new FileReader();
+async function handleFileUpload(jsonArray, load) {
+    if (Array.isArray(jsonArray)) {
+        const aElements = [];
+        load.classList.remove("hidden");
 
-        reader.onload = async function(event) {
-            const fileContent = event.target.result;
-            let jsonArray;
+        for (let index = 0; index < jsonArray.length; index++) {
+            const data = jsonArray[index];
 
+            let options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                },
+                body: JSON.stringify(data)
+            };
             try {
-                jsonArray = JSON.parse(fileContent);
-            } catch (e) {
-                alert('Ah ocurrido un error en el formato del JSON, corrija el error e intenelo de nuevo.');
-                return;
-            }
-
-            if (Array.isArray(jsonArray)) {
-                const aElements = [];
-                load.classList.remove("hidden");
-
-                for (let index = 0; index < jsonArray.length; index++) {
-                    const data = jsonArray[index];
-
-                    let options = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-                        },
-                        body: JSON.stringify(data)
-                    };
-
-                    try {
-                        const response = await fetch('/FilePDF', options);
-                        if (!response.ok) {
-                            load.classList.add("hidden");
-                            throw new Error('La respuesta de la red no fue correcta');
-                        }
-
-                        const blob = await response.blob();
-                        const url = window.URL.createObjectURL(blob);
-
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `template${index + 1}.pdf`;
-                        aElements.push(a);
-                    } catch (error) {
-                        load.classList.add("hidden");
-                        console.error('Error:', error);
-                    }
+                const response = await fetch('/FilePDF', options);
+                if (!response.ok) {
+                    load.classList.add("hidden");
+                    throw new Error('La respuesta de la red no fue correcta');
                 }
 
-                aElements.forEach(a => {
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                });
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
 
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `template${index + 1}.pdf`;
+                aElements.push(a);
+            } catch (error) {
                 load.classList.add("hidden");
-            } else {
-                alert('Error en la estructura del archivo.');
+                console.error('Error:', error);
             }
-        };
+        }
 
-        reader.readAsText(file);
+        aElements.forEach(a => {
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+
+        load.classList.add("hidden");
     } else {
-        alert('Por favor subir un archivo válido.');
+        alert('Error en la estructura del archivo.');
     }
+}
+
+async function getJSON(file, load) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    let options = {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+        },
+        body: formData
+    };
+
+    try {
+        const response = await fetch('/excel', options);
+        if (!response.ok) {
+            load.classList.add("hidden");
+            throw new Error('La respuesta de la red no fue correcta');
+        }
+
+        const json = await response.json();
+        handleFileUpload(json, load);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    
 }

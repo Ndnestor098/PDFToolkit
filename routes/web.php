@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,9 +12,12 @@ Route::get('/info', function () {
     return view('info');
 })->name("info");
 
+
 Route::post('/FilePDF', PDFController::class);
+Route::post('/excel', [PDFController::class, 'sendJSON']);
 
-Route::get('/gallery/image', [PDFController::class, "showImages"])->name("images");
-Route::post("/upload/images-icons", [PDFController::class, "upload"]);
 
-Route::get('/pdf', PDFController::class);
+Route::get('/gallery/image', [ImageController::class, "showImages"])->name("images");
+Route::post("/upload/images-icons", [ImageController::class, "upload"]);
+
+Route::get("/view", PDFController::class);

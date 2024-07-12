@@ -31,7 +31,7 @@
                         <span style="color: #000">o</span>
                         <span class="browse-button">Browse file</span>
                         </div>
-                        <input id="file" type="file" name="file" accept=".txt, text/plain"/>
+                        <input id="file" type="file" name="file" accept=".xlsx, .xls"/>
                     </label>
 
                     <span id="name" style="height:20px;color:#fff;font-weight: 500;"></span>
