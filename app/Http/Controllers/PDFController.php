@@ -14,6 +14,7 @@ class PDFController extends Controller
         $data = $request->json()->all();
 
         // $data = $read->readExcel('public/file/prueba.xlsx')[0];
+        
         // Verificar si se obtuvo correctamente el JSON
         if (!$data || !is_array($data)) {
             return response()->json(['error' => 'Los datos JSON no son válidos.'], 400);

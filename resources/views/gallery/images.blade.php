@@ -159,8 +159,8 @@
                             <div>
                                 <a href="/images/{{ $item }}" target="__blanck">
                                     <img class="imagenes" src="/images/{{ $item }}" alt="Image - {{ $item }}">
-                                    <span>{{ $item }}</span>
                                 </a>
+                                <span>images/{{ $item }}</span>
                             </div>
                         @endforeach
                     </div>
@@ -178,8 +178,8 @@
                             <div>
                                 <a href="/icon/{{ $item }}" target="__blanck">
                                     <img class="icons" src="/icon/{{ $item }}" alt="Image - {{ $item }}">
-                                    <span>{{ $item }}</span>
                                 </a>
+                                <span>icon/{{ $item }}</span>
                             </div>
                         @endforeach
                     </div>

@@ -13,16 +13,18 @@ class PDFServices
             if (is_array($page)) {
                 // Iterar sobre los elementos dentro de cada página
                 foreach ($page as $key => $value) {
-                    // Verificar si $value es un array y tiene una clave "2" que contenga "image"
-                    if (is_array($value) && isset($value[2]['image']) && !empty($value[2]['image'])) {
-                        $image = $value[2]["image"];
-                        $color = isset($value[2]["color-icon"]) ? $value[2]["color-icon"] : null;
-        
-                        $sourcePath = public_path($image);
-                        $destinationPathBlue = public_path($image);
-        
-                        // Cambiar el color de la imagen
-                        $this->recolorImage($sourcePath, $destinationPathBlue, $color);
+                    if (stripos($key, "icon") !== false) {
+                        // Verificar si $value es un array y contiene la clave 'value'
+                        if (is_array($value) && isset($value['value']) && !empty($value['value'])) {
+                            $image = $value["value"];
+                            $color = isset($value["color"]) ? $value["color"] : null;
+    
+                            $sourcePath = public_path($image);
+                            $destinationPathBlue = public_path($image);
+    
+                            // Cambiar el color de la imagen
+                            $this->recolorImage($sourcePath, $destinationPathBlue, $color);
+                        }
                     }
                 }
             }
