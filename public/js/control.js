@@ -64,6 +64,7 @@ async function handleFileUpload(jsonArray, load) {
                 const response = await fetch('/FilePDF', options);
                 if (!response.ok) {
                     load.classList.add("hidden");
+                    console.log(response);
                     throw new Error('La respuesta de la red no fue correcta');
                 }
 
@@ -88,6 +89,7 @@ async function handleFileUpload(jsonArray, load) {
 
         load.classList.add("hidden");
     } else {
+        console.log(response);
         alert('Error en la estructura del archivo.');
     }
 }
@@ -108,6 +110,7 @@ async function getJSON(file, load) {
         const response = await fetch('/excel', options);
         if (!response.ok) {
             load.classList.add("hidden");
+            console.log(response);
             throw new Error('La respuesta de la red no fue correcta');
         }
 

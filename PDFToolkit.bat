@@ -6,6 +6,8 @@ set "BASEDIR=%~dp0"
 
 echo Iniciando servidor PHP en la carpeta: %BASEDIR%
 cd /d "%BASEDIR%"
+
+php artisan storage:link
 start /B php artisan serve > nul
 
 echo Abriendo navegador predeterminado...

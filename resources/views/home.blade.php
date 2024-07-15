@@ -42,7 +42,7 @@
                         </button>
                     </div>
                 </form>
-                <a href="{{ route("info") }}" style="margin-right: 15px;margin-bottom: 5px;bottom: 0;right: 0;">Informacion de uso</a>
+                <a href="#" style="margin-right: 15px;margin-bottom: 5px;bottom: 0;right: 0;">Informacion de uso</a>
                 <a href="{{ route("images") }}" style="margin-left: 15px;margin-bottom: 5px;bottom: 0;left: 0;">Areas de imagenes</a>
             
                 <div id="loading" class="content-load hidden">

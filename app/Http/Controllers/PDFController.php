@@ -37,10 +37,6 @@ class PDFController extends Controller
 
     public function sendJSON(Request $request, ReaderServices $read)
     {
-        $request->validate([
-            'file' => 'required|mimes:xlsx,xls',
-        ]);
-
         if ($request->file('file')->isValid()) {
             // Obtener el nombre original del archivo
             $fileName = $request->file('file')->getClientOriginalName();
