@@ -12,8 +12,11 @@ class ReaderServices
 
         // Leer el archivo Excel
         $data = Excel::toArray([], $path);
+        
         $sheetData = $data[0];
-
+        unset($sheetData[0]);
+        unset($sheetData[1]);
+        // return $sheetData;
         // Estructurar los datos
         $structuredData = $this->structureData($sheetData);
 
@@ -33,10 +36,12 @@ class ReaderServices
             // Check if the row indicates a new page
             if (strpos($identifier, 'page-') !== false) {
                 $currentPage = $identifier;
+                // Initialize the new page in the structured data
                 $structuredData[$pageCounter][$currentPage] = [];
-            } elseif ($identifier === 'pdf' && $row[1] === null && $row[2] === null) {
+            } elseif (($identifier === 'PDF' || $identifier === 'pdf') && $row[1] === null && $row[2] === null) {
                 // Found ["pdf", null, null], increment page counter
                 $pageCounter++;
+                $currentPage = ''; // Reset current page
             } else {
                 $value = isset($row[1]) ? $row[1] : null;
                 $color = isset($row[2]) ? $row[2] : null;
@@ -53,4 +58,5 @@ class ReaderServices
 
         return $structuredData;
     }
+
 }

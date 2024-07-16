@@ -11,9 +11,9 @@ class PDFController extends Controller
 {
     public function __invoke(Request $request, PDFServices $services, ReaderServices $read)
     {
-        $data = $request->json()->all();
+        // $data = $request->json()->all();
 
-        // $data = $read->readExcel('public/file/prueba.xlsx')[0];
+        return $data = $read->readExcel('public/file/prueba.xlsx');
         
         // Verificar si se obtuvo correctamente el JSON
         if (!$data || !is_array($data)) {
@@ -43,6 +43,7 @@ class PDFController extends Controller
 
             // Guardar el archivo en la carpeta app/public/file
             $filePath = $request->file('file')->storeAs('public/file', $fileName);
+            
 
             // Obtener la ruta completa del archivo guardado
             $storedFilePath = storage_path('app/' . $filePath);
