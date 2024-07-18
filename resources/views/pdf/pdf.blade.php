@@ -211,7 +211,7 @@
     {{-- ------------------ PAGINA 3 ------------------ --}}
     <div style="position:relative;width:892px;height:1122px;">
         <img style="width: 449px;position: absolute;right: 0;top: 0;" 
-            src="{{ $data['page-3']["image-global"]['value'] ? $data['page-3']["image-global"]['value'] : "images/prueba0003.png" }}" 
+            src="{{ $data['page-3']["image-global"]['value'] ? $data['page-3']["image-global"]['value'] : "images/pdf-1-img-14-default.png" }}" 
             alt="background image"/>
 
         <p class="ft01" style="color:{{ $data['page-3']['title']['color'] ? $data['page-3']['title']['color'] : ""; }}">
@@ -293,7 +293,7 @@
     <div style="position:relative;width:793px;height:1122px;">
         <div style="height: 375px; width:100%;">
             <h1 style="color:#fff">h</h1>
-            <b style="position: absolute;top:50px;left:50px;font-size:28px;transform:scaleY(1.1);color:{{ $data['page-5']['title']['color'] ? $data['page-5']['title']['color'] : "#43b4c5" }};">
+            <b style="position:absolute;top:50px;left:50px;font-size:28px;transform:scaleY(1.1);color:{{ $data['page-5']['title']['color'] ? $data['page-5']['title']['color'] : "#43b4c5" }};">
                 {!! $data['page-5']['title']['value'] !!}
             </b>
             <p style="text-align:justify;width:695px;position:absolute;top:110px;left:50px;color:{{ $data['page-5']['text']['color'] ? $data['page-5']['text']['color'] : "#000" }}">
@@ -334,7 +334,7 @@
 
         <div style="position:absolute;height:890px;width:695px;top:128px;left:50px;">
             <div style="background-color:{{$data['page-6']['content-color']['color']?$data['page-6']['content-color']['color']:"#0a1b2e"}};position:absolute;left:0:top:0;width:210px;height:890px;">
-                <img src="images/road.png" style="position:absolute;height:100%;left:54px;top:0;">
+                <img src="images/pdf-1-img-15-default.png" style="position:absolute;height:100%;left:54px;top:0;">
                 
                 <img src="{{ $data['page-6']["bloque-icon"]['value']?$data['page-6']["bloque-icon"]['value']:"icon/lego-default.png"}}" style="position:absolute;left:22px;top:25px;" height="60px" width="89px">
                 <img src="{{ $data['page-6']["ia-icon"]['value']?$data['page-6']["ia-icon"]['value']:"icon/ai-default.png"}}" style="position:absolute;top:170px;right:30px;" height="65px" width="65px">
@@ -722,16 +722,16 @@
 
         <div style="position:absolute;bottom:0px;width:100%;height:45px;background:#43b4c5;">
             <a href="{!!$data['page-12']["url-1"]['value'] ? $data['page-12']["url-1"]['value']:""!!}" style="position: absolute;left:250px;top:10px;" target="__blank">
-                <img src="{{ $data['page-12']["link-icon-1"]['value'] ? $data['page-12']["link-icon-1"]['value'] : "icon/linkedin.png"}}" style="height:30px;width:30px;">
+                <img src="{{ $data['page-12']["link-icon-1"]['value'] ? $data['page-12']["link-icon-1"]['value'] : "icon/linkedin-default.png"}}" style="height:30px;width:30px;">
             </a>
             <a href="{!!$data['page-12']["url-2"]['value'] ? $data['page-12']["url-2"]['value']:""!!}" style="position: absolute;left:340px;top:10px;" target="__blank">
-                <img src="{{ $data['page-12']["link-icon-2"]['value'] ? $data['page-12']["link-icon-2"]['value'] : "icon/twitter.png"}}" style="height:30px;width:30px;">
+                <img src="{{ $data['page-12']["link-icon-2"]['value'] ? $data['page-12']["link-icon-2"]['value'] : "icon/twitter-default.png"}}" style="height:30px;width:30px;">
             </a>
             <a href="{!!$data['page-12']["url-3"]['value'] ? $data['page-12']["url-3"]['value']:""!!}" style="position: absolute;left:420px;top:10px;" target="__blank">
-                <img src="{{ $data['page-12']["link-icon-3"]['value'] ? $data['page-12']["link-icon-3"]['value'] : "icon/youtube.png"}}" style="height:30px;width:30px;">
+                <img src="{{ $data['page-12']["link-icon-3"]['value'] ? $data['page-12']["link-icon-3"]['value'] : "icon/youtube-default.png"}}" style="height:30px;width:30px;">
             </a>
             <a href="{!!$data['page-12']["url-4"]['value'] ? $data['page-12']["url-4"]['value']:""!!}" style="position: absolute;left:500px;top:10px;" target="__blank">
-                <img src="{{ $data['page-12']["link-icon-4"]['value'] ? $data['page-12']["link-icon-4"]['value'] : "icon/web.png"}}" style="height:30px;width:30px;">
+                <img src="{{ $data['page-12']["link-icon-4"]['value'] ? $data['page-12']["link-icon-4"]['value'] : "icon/web-default.png"}}" style="height:30px;width:30px;">
             </a>
         </div>
     </div>

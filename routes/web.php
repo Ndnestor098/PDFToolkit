@@ -20,4 +20,6 @@ Route::post('/excel', [PDFController::class, 'sendJSON']);
 Route::get('/gallery/image', [ImageController::class, "showImages"])->name("images");
 Route::post("/upload/images-icons", [ImageController::class, "upload"]);
 
-Route::get("/view", PDFController::class);
+Route::get("/delete/images", [ImageController::class, "deleteImages"])->name('delete.images');
+Route::get("/delete/icons", [ImageController::class, "deleteIcons"])->name('delete.icons');;
+

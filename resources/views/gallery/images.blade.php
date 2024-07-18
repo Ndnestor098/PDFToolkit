@@ -14,177 +14,145 @@
         <script src="https://kit.fontawesome.com/8f34396e62.js" crossorigin="anonymous"></script>
 
         <!-- Styles -->
-        <style>
-            *{
-                padding: 0;
-                margin: 0;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                text-decoration: none;
-                color: #000;
-            }
-
-            body{
-                width: 100%;
-                height: 100%;
-            }
-
-            .content{
-                padding: 20px;
-                display: flex;
-                width: 100%;
-                align-items: center;
-                flex-direction: column;
-                gap: 25px;
-            }
-
-            .contenedor{
-                width: 100%;
-                height: 100%;
-                box-shadow: 2px 24px 55px -28px rgba(72,90,112,1);
-                display: flex;
-                justify-content: center;
-            }
-
-            .content-img{
-                max-width: 900px;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px 0px; 
-            }
-
-            .imagenes{
-                height: 200px;
-                width: 140px;
-                object-fit: cover;
-                display: flex;
-                flex-direction: column;
-            }
-
-            .icons{
-                height: 90px;
-                width: 90px;
-                object-fit: cover;
-                display: flex;
-                flex-direction: column;
-            }
-            
-            .images{
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-                justify-content: center;
-            }
-
-            .title{
-                width: 100%;
-
-                h2{
-                    color: #495b71;
-                    font-weight: 600;
-                    text-align: center;
-                }
-            }
-
-            span{
-                display: block;
-                width: 100%;
-                text-align: center;
-            }
-
-            a{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .adding{
-                position: fixed;
-                top: 0;
-                margin-top: 20px;
-                left: 30px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 30px;
-                height: 120px;
-            }
-
-            .form-image, .form-icon{
-                label {
-                    cursor: pointer;
-                    display: flex;
-                    flex-direction: column;
-                    position: relative;
-                }
-
-                i {
-                    font-size: 20px;
-                    color: #495b71;
-                    text-align: center;
-                }
-
-                i:hover + span {
-                    display: block;
-                    position: absolute;
-                    white-space: nowrap;
-                    right: -28px;
-                    top: -3px;
-                }
-
-                label span {
-                    display: none;
-                }
-                input{
-                    display: none;
-                }
-            }
-            
-        </style>
+        <link rel="stylesheet" href="/styles/style-gallery.css">
     </head>
     <body>
+        <div id="content-images" class="content-add hidden">
+            <div class="content-child">
+                <h3 style="margin-bottom:20px; color:#495b71; font-weight:700;">Agregar Imagenes</h3>
+                <form id="form" action="/upload/images-icons" method="post" enctype="multipart/form-data" class="file-upload-form">
+                    @csrf
+                    <div> 
+                        <select name="pdf-images" id="pdf-images">
+                            <option value="" disabled selected>Seleccionar un PDF</option>
+                            @foreach ($htmls as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <label for="image" class="file-upload-label-images">
+                        <div class="file-upload-design">
+                        <svg viewBox="0 0 640 512" height="1em">
+                            <path
+                                d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"
+                            ></path>
+                        </svg>
+                        <span style="color: #000">Arrastra y Suelta</span>
+                        <span style="color: #000">o</span>
+                        <span class="browse-button">Browse file</span>
+                        </div>
+                        <input type="file" id="image" name="image[]" accept="image/*" multiple>
+                    </label>
+
+                    <span id="error-image" style="height:20px;color:#e64747;font-weight: 500;"></span>
+
+                    <div class="div-button">
+                        <button type="button" class="btn" id="uploadButton-1">
+                            <i class="animation"></i>Enviar<i class="animation"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <i id="close-images" style="position: absolute;right:30px;top:30px;font-size:30px;cursor:pointer;color:#5d7ea7;" class="fa-solid fa-xmark"></i>
+        </div>
+
+        <div id="content-icons" class="content-add hidden">
+            <div class="content-child">
+                <h3 style="margin-bottom:20px; color:#495b71; font-weight:700;">Agregar Iconos</h3>
+                <form id="form-icon" action="/upload/images-icons" method="post" enctype="multipart/form-data" class="file-upload-form">
+                    @csrf
+                    <div> 
+                        <select name="pdf-icon" id="pdf-icon">
+                            <option value="" disabled selected>Seleccionar un PDF</option>
+                            @foreach ($htmls as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <label for="icon" class="file-upload-label-icon">
+                        <div class="file-upload-design">
+                        <svg viewBox="0 0 640 512" height="1em">
+                            <path
+                                d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"
+                            ></path>
+                        </svg>
+                        <span style="color: #000">Arrastra y Suelta</span>
+                        <span style="color: #000">o</span>
+                        <span class="browse-button">Browse file</span>
+                        </div>
+                        <input type="file" id="icon" name="icon[]" accept="image/*" multiple>
+                    </label>
+
+                    <span id="error-icon" style="height:20px;color:#e64747;font-weight: 500;"></span>
+
+                    <div class="div-button">
+                        <button type="button" class="btn" id="uploadButton-2">
+                            <i class="animation"></i>Enviar<i class="animation"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <i id="close-icons" style="position: absolute;right:30px;top:30px;font-size:30px;cursor:pointer;color:#5d7ea7;" class="fa-solid fa-xmark"></i>
+        </div>
+
         <div class="content">
-            <div class="contenedor">
-                <div class="content-img">
-                    <div class="title">
-                        <h2>
-                            Imagenes de Contenedores
-                        </h2>
-                    </div>
-                    <div class="images">
-                        @foreach ($images as $item)
-                            <div>
-                                <a href="/images/{{ $item }}" target="__blanck">
-                                    <img class="imagenes" src="/images/{{ $item }}" alt="Image - {{ $item }}">
-                                </a>
-                                <span>images/{{ $item }}</span>
-                            </div>
-                        @endforeach
+            <div class="nav">
+                @foreach ($htmls as $item)
+                    <a href="{{ route('images',['pdf'=>$item->slug]) }}">{{ $item->name }}</a>
+                @endforeach 
+            </div>
+            @if ($content)
+                <div class="contenedor">
+                    <div class="content-img">
+                        <div class="title">
+                            <h2>
+                                Imagenes de Contenedores
+                            </h2>
+                        </div>
+                        <div class="images">
+                            @foreach ($html->images as $item)
+                                <div>
+                                    <a href="/images/{{ $item->url }}" target="__blanck">
+                                        <img class="imagenes" src="/images/{{ $item->url }}" alt="Image - {{ $item->url }}">
+                                    </a>
+                                    <span>
+                                        <i id="copy" class="fa-solid fa-copy" style="color:#495b71;" data-value="/images/{{ $item->url }}"></i>
+                                        <a href="{{ route('delete.images', ['id'=>$item->id]) }}">
+                                            <i class="fa-solid fa-trash" style="color: #e64747;"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="contenedor">
-                <div class="content-img">
-                    <div class="title">
-                        <h2>
-                            Iconos de Contenedores
-                        </h2>
-                    </div>
-                    <div class="images">
-                        @foreach ($icons as $item)
-                            <div>
-                                <a href="/icon/{{ $item }}" target="__blanck">
-                                    <img class="icons" src="/icon/{{ $item }}" alt="Image - {{ $item }}">
-                                </a>
-                                <span>icon/{{ $item }}</span>
-                            </div>
-                        @endforeach
+                <div class="contenedor">
+                    <div class="content-img">
+                        <div class="title">
+                            <h2>
+                                Iconos de Contenedores
+                            </h2>
+                        </div>
+                        <div class="images">
+                            @foreach ($html->icons as $item)
+                                <div>
+                                    <a href="/icon/{{ $item->url }}" target="__blanck">
+                                        <img class="icons" src="/icon/{{ $item->url }}" alt="Image - {{ $item->url }}">
+                                    </a>
+                                    <span>
+                                        <i class="fa-solid fa-copy" style="color:#495b71;" data-value="/icon/{{ $item->url }}"></i>
+                                        <a href="{{ route('delete.icons', ['id'=>$item->id]) }}">
+                                            <i class="fa-solid fa-trash" style="color: #e64747;"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
 
         <div class="adding">
@@ -197,27 +165,32 @@
                 </label>
             </form>
 
-            <form action="/upload/images-icons" method="post" class="form-image" id="form-image">
-                @csrf
-                <label for="image">
+            <form class="form-image" id="images-click">
+                <label>
                     <i class="fa-regular fa-image"></i>
                     <span>Agregar Imagen</span>
                 </label>
-                <input type="file" id="image" name="image[]" accept="image/*" multiple>
-                <button type="submit" style="display:none;">Subir Imágenes</button>
             </form>
 
-            <form action="/upload/images-icons" method="post" class="form-icon" id="form-icon">
-                @csrf
-                <label for="icon">
+            <form class="form-icon" id="icon-click">
+                <label>
                     <i class="fa-solid fa-icons"></i>
                     <span>Agregar Icono</span>
                 </label>
-                <input type="file" id="icon" name="icon[]" accept="image/*" multiple>
-                <button type="submit" style="display:none;">Subir Iconos</button>
             </form>
+        </div>
+
+        <div id="alert-message" class="hidden info">
+            <div class="info__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z"></path></svg>
+            </div>
+            <div id="message" class="info__title"></div>
         </div>
     </body>
 
-    <script src="/js/send.js"></script>
+    <script src="/js/style.js"></script>
+    <script src="/js/sendImages.js"></script>
+    <script src="/js/sendIcon.js"></script>
+    <script src="/js/copy.js"></script>
+
 </html>

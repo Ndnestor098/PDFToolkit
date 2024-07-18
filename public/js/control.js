@@ -45,11 +45,11 @@ dropArea.addEventListener('drop', async (event) => {
 });
 
 async function handleFileUpload(jsonArray, load) {
-    if (Array.isArray(jsonArray)) {
+    if (Object.prototype.toString.call(jsonArray) === '[object Object]') {
         const aElements = [];
         load.classList.remove("hidden");
 
-        for (let index = 0; index < jsonArray.length; index++) {
+        for (let index in jsonArray) {
             const data = jsonArray[index];
 
             let options = {
@@ -72,7 +72,7 @@ async function handleFileUpload(jsonArray, load) {
 
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `template${index + 1}.pdf`;
+                a.download = `template.pdf`;
                 aElements.push(a);
             } catch (error) {
                 load.classList.add("hidden");
@@ -112,6 +112,7 @@ async function getJSON(file, load) {
         }
 
         const json = await response.json();
+
         handleFileUpload(json, load);
     } catch (error) {
         console.error('Error:', error);

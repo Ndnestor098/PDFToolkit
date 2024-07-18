@@ -11,10 +11,10 @@ class PDFController extends Controller
 {
     public function __invoke(Request $request, PDFServices $services, ReaderServices $read)
     {
-        // $data = $request->json()->all();
+        $data = $request->json()->all();
 
-        return $data = $read->readExcel('public/file/prueba.xlsx');
-        
+        // $data = $read->readExcel('public/file/prueba.xlsx');
+
         // Verificar si se obtuvo correctamente el JSON
         if (!$data || !is_array($data)) {
             return response()->json(['error' => 'Los datos JSON no son válidos.'], 400);
