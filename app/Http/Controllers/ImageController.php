@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\html;
 use App\Models\Icon;
+use App\Models\ImagePDF;
 use App\Models\Images;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -17,22 +18,30 @@ class ImageController extends Controller
         $content = false;
         
         $html = '';
-        if($request->has('pdf'))
+        $pdfs = false;
+        if($request->has('template'))
         {
             $content = true;
+
             $html = html::with([
-                    'images' => function ($query) {
-                        $query->whereNot('url', 'like', '%-default%');
-                    },
-                    'icons' => function ($query) {
-                        $query->whereNot('url', 'like', '%-default%');
-                    }
-                ])
-                ->where('slug', $request->pdf)
-                ->first();
+                'images' => function ($query) {
+                    $query->whereNot('url', 'like', '%-default%');
+                },
+                'icons' => function ($query) {
+                    $query->whereNot('url', 'like', '%-default%');
+                },'pdfImage'
+            ])
+            ->where('slug', $request->template)
+            ->first();
+
+            if($request->has('pdf')){
+                $pdfs = ImagePDF::where('name', $request->pdf)
+                    ->where('html_id',$html->id)
+                    ->first();
+            }
         }
         
-        return view('gallery.images', compact('html', 'htmls', 'content'));
+        return view('gallery.images', compact('html', 'htmls', 'content', 'pdfs'));
     }
 
     public function upload(Request $request)
@@ -95,13 +104,17 @@ class ImageController extends Controller
 
     public function deleteIcons(Request $request)
     {
-        $image = Icon::findOrFail($request->id);
+        // Encuentra el icono en la base de datos
+        $icon = Icon::findOrFail($request->id);
         
         // Eliminar el archivo físico de la imagen
-        Storage::delete('public/icon/' . $image->url);
-        
+        $filePath = public_path('icon/' . $icon->url);
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+
         // Eliminar el registro de la imagen de la base de datos
-        $image->delete();
+        $icon->delete();
         
         return redirect()->back();
     }

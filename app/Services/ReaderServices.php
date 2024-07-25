@@ -1,11 +1,14 @@
 <?php
 namespace App\Services;
 
+use App\Models\ImagePDF;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\html;
+use Illuminate\Support\Facades\Log;
 
 class ReaderServices
 {
-    public function readExcel($path)
+    public function readExcel($path, $request = false)
     {
         // Leer el archivo Excel
         $data = Excel::toArray([], $path);
@@ -17,11 +20,15 @@ class ReaderServices
             if(strpos($value, 'PDF') !== false)
             {
                 $contador ++;
-                $structuredData[$contador] = $this->structureData($sheetData, $contador);
+                $structuredData['PDF-'.$contador-1] = $this->structureData($sheetData, $contador);
             }
         }
 
         // Mostrar los datos estructurados
+        if($request){
+            $this->saveData($structuredData, $request);
+        }
+
         return $structuredData;
     }
 
@@ -83,5 +90,60 @@ class ReaderServices
         }
 
         return $structuredData[0];
+    }
+
+    public function saveData($data, $request)
+    {
+        $array = [];
+        foreach ($data as $key => $value) {
+            $count = 0;
+            foreach ($value as $valores => $dato) {
+                foreach ($dato as $subKey => $value) {
+                    if ($subKey == 'image-global' && $value['value']) {
+                        $count++;
+                        $array[$key]['image-' . $count] = $value['value'];
+                    }
+                    
+                    if(strpos($subKey, '-icon') !== false && isset($value['value']) && $value['value']){
+                        $count++;
+                        $array[$key]['icon-' . $count] = $value['value'];
+                    }
+                }
+            }
+        }
+
+        if (empty($array)) {
+            // Busca el id del html correspondiente
+            $html = Html::find($request);
+            if ($html) {
+                $html_id = $html->id;
+    
+                // Actualiza todas las entradas correspondientes a este html_id para que la columna url esté vacía
+                ImagePDF::where('html_id', $html_id)->update(['url' => ""]);
+            } else {
+                Log::warning("Html no encontrado: " . $request);
+            }
+        } else {
+            foreach (array_keys($array) as $key) {
+                // Busca el id del html correspondiente
+                $html = Html::find($request);
+                if ($html) {
+                    $html_id = $html->id;
+    
+                    // Usa updateOrCreate para actualizar si existe o crear si no existe
+                    ImagePDF::updateOrCreate(
+                        [
+                            'name' => $key,
+                            'html_id' => $html_id
+                        ],
+                        [
+                            'url' => json_encode($array[$key]) // Convierte el array a JSON
+                        ]
+                    );
+                } else {
+                    Log::warning("Html no encontrado: " . $request);
+                }
+            }
+        }
     }
 }

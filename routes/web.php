@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PDFController;
+use App\Models\html;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home');
+    $htmls = html::all();
+
+    return view('home', compact('htmls'));
 });
 
 Route::get('/info', function () {
@@ -14,10 +17,12 @@ Route::get('/info', function () {
 
 
 Route::post('/FilePDF', PDFController::class);
+Route::get('/test', PDFController::class);
+
 Route::post('/excel', [PDFController::class, 'sendJSON']);
 
 
-Route::get('/gallery/image', [ImageController::class, "showImages"])->name("images");
+Route::get('/gallery', [ImageController::class, "showImages"])->name("images");
 Route::post("/upload/images-icons", [ImageController::class, "upload"]);
 
 Route::get("/delete/images", [ImageController::class, "deleteImages"])->name('delete.images');

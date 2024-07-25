@@ -20,4 +20,14 @@ class html extends Model
     {
         return $this->hasMany(Icon::class);
     }
+
+    public function pdfImage()
+    {
+        return $this->hasMany(ImagePDF::class);
+    }
+
+    public function pdfIcon()
+    {
+        return $this->hasMany(ImagePDF::class);
+    }
 }

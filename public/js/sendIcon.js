@@ -37,7 +37,7 @@ dropAreaIcons.addEventListener('drop', async (event) => {
     document.getElementById('uploadButton-2').removeEventListener('click', fileGetIcon); 
 
     document.getElementById('uploadButton-2').addEventListener('click', async function() {
-        await handleFileUploadIconIcon(file);
+        await handleFileUploadIcon(file);
     });
 });
 

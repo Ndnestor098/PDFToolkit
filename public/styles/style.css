@@ -676,6 +676,7 @@ p{
     align-items: center;
     justify-content: center;
     padding: 0 0 20px 0;
+    gap: 15px;
   }
   .file-upload-label input {
     display: none;
@@ -710,3 +711,35 @@ p{
   .browse-button:hover {
     background-color: #6a829e;
   }
+
+
+  select {
+    /* Reset */
+    appearance: none;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    /* Personalize */
+    width: 20rem;
+    padding: 1rem 4rem 1rem 1rem;
+    background: url(https://cdn-icons-png.flaticon.com/512/8567/8567254.png) no-repeat right 0.8em center / 1.4em,
+                linear-gradient(to left, #e6e6e6 3em, #e6e6e6 3em);;
+    color: #495b71;
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+        
+    /* Remove IE arrow */
+    &::-ms-expand {
+        display: none;
+    }
+    /* Remove focus outline */
+    &:focus {
+        outline: none;
+    }
+    /* <option> colors */
+    option {
+        color: #495b71;
+        background-color: #000;
+    }
+}

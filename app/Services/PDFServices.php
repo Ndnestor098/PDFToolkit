@@ -15,7 +15,7 @@ class PDFServices
                 foreach ($page as $key => $value) {
                     if (stripos($key, "icon") !== false) {
                         // Verificar si $value es un array y contiene la clave 'value'
-                        if (is_array($value) && isset($value['value']) && !empty($value['value'])) {
+                        if (is_array($value) && isset($value['color']) && !empty($value['color'])) {
                             $image = $value["value"];
                             $color = isset($value["color"]) ? $value["color"] : null;
     

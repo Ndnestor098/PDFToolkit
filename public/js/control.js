@@ -14,9 +14,11 @@ document.getElementById('uploadButton').addEventListener('click', fileGet);
 // Manejar el evento de arrastrar y soltar
 const dropArea = document.querySelector('.file-upload-label');
 const nameFile = document.getElementById("file");
+let file = '';
 
 nameFile.addEventListener("change", (e) => {
-    const file = e.target.files[0];
+    file = e.target.files[0];
+    document.getElementById('name').style.color = '#fff';
     document.getElementById('name').innerText = file['name'];
 })
 
@@ -35,6 +37,7 @@ dropArea.addEventListener('drop', async (event) => {
     const file = event.dataTransfer.files[0];
     const load = document.getElementById("loading");
 
+    document.getElementById('name').style.color = '#fff';
     document.getElementById('name').innerText = file['name'];
 
     document.getElementById('uploadButton').removeEventListener('click', fileGet); 
@@ -47,7 +50,6 @@ dropArea.addEventListener('drop', async (event) => {
 async function handleFileUpload(jsonArray, load) {
     if (Object.prototype.toString.call(jsonArray) === '[object Object]') {
         const aElements = [];
-        load.classList.remove("hidden");
 
         for (let index in jsonArray) {
             const data = jsonArray[index];
@@ -66,7 +68,6 @@ async function handleFileUpload(jsonArray, load) {
                     load.classList.add("hidden");
                     throw new Error('La respuesta de la red no fue correcta');
                 }
-
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
 
@@ -94,7 +95,29 @@ async function handleFileUpload(jsonArray, load) {
 
 async function getJSON(file, load) {
     const formData = new FormData();
-    formData.append('file', file);
+
+    if(!file){
+        document.getElementById('name').style.color = '#e64747';
+        document.getElementById('name').innerText = 'Sube un archivo excel para la lectura.';
+        return ;
+    } else {
+        document.getElementById('name').style.color = '#fff';
+        document.getElementById('name').innerText = file['name'];      
+        formData.append('file', file);
+    }
+
+    const selectInput = document.getElementById('pdf');
+
+    if(!selectInput.value){
+        document.getElementById('name').style.color = '#e64747';
+        document.getElementById('name').innerText = 'Selecciona una Plantilla Guia.';
+        return ;
+    } else {
+        document.getElementById('name').style.color = '#fff';
+        document.getElementById('name').innerText = file['name'];    
+        // Obtén el valor del select
+        formData.append('pdf', selectInput.value);    
+    }
 
     let options = {
         method: 'POST',
@@ -105,6 +128,7 @@ async function getJSON(file, load) {
     };
 
     try {
+        load.classList.remove("hidden");
         const response = await fetch('/excel', options);
         if (!response.ok) {
             load.classList.add("hidden");
@@ -115,7 +139,7 @@ async function getJSON(file, load) {
 
         handleFileUpload(json, load);
     } catch (error) {
+        load.classList.add("hidden");
         console.error('Error:', error);
     }
-    
 }

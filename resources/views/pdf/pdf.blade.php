@@ -210,7 +210,7 @@
     
     {{-- ------------------ PAGINA 3 ------------------ --}}
     <div style="position:relative;width:892px;height:1122px;">
-        <img style="width: 449px;position: absolute;right: 0;top: 0;" 
+        <img style="width:449px;height:1120px;;position:absolute;right: 0;top: 0;" 
             src="{{ $data['page-3']["image-global"]['value'] ? $data['page-3']["image-global"]['value'] : "images/pdf-1-img-14-default.png" }}" 
             alt="background image"/>
 
@@ -321,9 +321,9 @@
             </ul>
         </div>
 
-        <img src="{{ $data['page-5']['image-global']['value'] ? $data['page-5']['image-global']['value'] : "images/pdf-1-img-7-default.png"}}" style="width:100%;heigth:745px"/>
+        <img src="{{ $data['page-5']['image-global']['value'] ? $data['page-5']['image-global']['value'] : "images/pdf-1-img-7-default.png"}}" style="width:793px;height:746px"/>
         <b style="position:absolute;bottom:15px;left:35px;color:#fff">4</b>
-    
+        <div style="position:absolute;bottom:0px;right:0px;width:752px;height:10px;background-color:#0a1b2e;"></div>
     </div>
 
     {{-- ------------------ PAGINA 6 ------------------ --}}
@@ -479,7 +479,7 @@
 
     {{-- ------------------ PAGINA 8 ------------------ --}}
     <div style="position:relative;width:793px;height:1122px;">
-        <img src="{{$data['page-8']['image-global']['value']?$data['page-8']['image-global']['value']:"images/pdf-1-img-9-default.png"}}" style="position:absolute;top:0;520px;width:100%">
+        <img src="{{ $data['page-8']["image-global"]['value'] ? $data['page-8']["image-global"]['value'] : "images/pdf-1-img-9-default.png"}}" style="position:absolute;top:0;height:520px;width:100%">
         
         <div style="position:absolute;bottom:0;left:0;height:599px;width:100%;">
             <b style="position: absolute;top:45px; width:100%;text-align:center;font-size:25px;transform:scaleY(1.2);color:{{$data['page-8']['title']['color']?$data['page-8']['title']['color']:"#43b4c5"}};">
@@ -631,7 +631,7 @@
 
         </div>
 
-        <img src="{{$data['page-10']['image-global']['value']?$data['page-10']['image-global']['value']:"images/pdf-1-img-11-default.png"}}" style="position:absolute;bottom:65px;left:45px;width:460px;heigth:525px;">
+        <img src="{{$data['page-10']['image-global']['value']?$data['page-10']['image-global']['value']:"images/pdf-1-img-11-default.png"}}" style="position:absolute;bottom:65px;left:45px;width:460px;height:525px;">
         
         <div style="background-color:{{$data['page-10']['content-image-color']['color']?$data['page-10']['content-image-color']['color']:"#0a1b2e"}};width:275px;height:95px;position:absolute;bottom:132px;right:162px;">
             <b style="color: {{$data['page-10']['title-image']['color']?$data['page-10']['title-image']['color']:"#43b4c5"}}; position:absolute;top:25px;left:35px;font-size:38px;transform:scaleY(1.2)">
@@ -639,13 +639,13 @@
             </b>
         </div>
 
-        <p class="ft00" style="color: #000;left:35px"><b>8</b></p>
+        <p class="ft00" style="color: #000;left:35px"><b>9</b></p>
         <div style="position:absolute;bottom:-1px;right:0px;width:758px;height:10px;background-color:#0a1b2e;"></div>
     </div>
 
     {{-- ------------------ PAGINA 11 ------------------ --}}
     <div style="position:relative;width:793px;height:1122px;">
-        <img src="images/pdf-1-img-12-default.png" style="height:100%;width:100%;position:absolute;top:0;left:0;">
+        <img src="{{ $data['page-11']["image-global"]['value'] ? $data['page-11']["image-global"]['value'] : 'images/pdf-1-img-12-default.png'}}" style="height:100%;width:100%;position:absolute;top:0;left:0;">
     
         <div style="position:absolute;background-color: {{$data["page-11"]['content-color']['color']? $data["page-11"]['content-color']['color']: "#0eb0c3"}} ;width:427px;height:510px;right:30px;bottom:8px;">
             <img src="{{ $data['page-11']['comilla-icon']['value'] ? $data['page-11']['comilla-icon']['value'] : "icon/comilla-default.png"}}" style="position:absolute;top:30px;left:25px;" height="65px" width="87px">
@@ -666,11 +666,11 @@
 
         </div>
 
-        <p class="ft00" style="color: #000;left:35px"><b>8</b></p>
+        <p class="ft00" style="color: #000;left:35px"><b>10</b></p>
         <div style="position:absolute;bottom:-1px;right:0px;width:758px;height:10px;background-color:#0a1b2e;"></div>
     </div>
 
-    {{-- ------------------ PAGINA 11 ------------------ --}}
+    {{-- ------------------ PAGINA 12 ------------------ --}}
     <div style="position:relative;width:793px;height:1122px;">
         <img style="position:absolute;top:25px;left:240px;width:315px;height:50px" src="{{ $data['page-12']["logo-icon"]['value'] ? $data['page-12']["logo-icon"]['value'] : "icon/logo-default.png" }}" alt="icon-image">
 

@@ -12,8 +12,7 @@ class PDFController extends Controller
     public function __invoke(Request $request, PDFServices $services, ReaderServices $read)
     {
         $data = $request->json()->all();
-
-        // $data = $read->readExcel('public/file/prueba.xlsx');
+        // return $data = $read->readExcel('public/file/guia.xlsx', 1);
 
         // Verificar si se obtuvo correctamente el JSON
         if (!$data || !is_array($data)) {
@@ -37,6 +36,7 @@ class PDFController extends Controller
 
     public function sendJSON(Request $request, ReaderServices $read)
     {
+        // return $request->all();
         if ($request->file('file')->isValid()) {
             // Obtener el nombre original del archivo
             $fileName = $request->file('file')->getClientOriginalName();
@@ -44,12 +44,11 @@ class PDFController extends Controller
             // Guardar el archivo en la carpeta app/public/file
             $filePath = $request->file('file')->storeAs('public/file', $fileName);
             
-
             // Obtener la ruta completa del archivo guardado
-            $storedFilePath = storage_path('app/' . $filePath);
-
+            $storedFilePath = storage_path('app/public/file/' . $fileName);
+            
             // Procesar el archivo Excel utilizando el servicio ReaderServices
-            $data = $read->readExcel($storedFilePath);
+            $data = $read->readExcel($storedFilePath, $request->has('pdf'));
 
             return response()->json($data, 200);
         } else {

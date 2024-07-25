@@ -97,13 +97,63 @@
             <i id="close-icons" style="position: absolute;right:30px;top:30px;font-size:30px;cursor:pointer;color:#5d7ea7;" class="fa-solid fa-xmark"></i>
         </div>
 
+        <div id="content-update" class="content-add hidden">
+            <div class="content-child">
+                <h3 style="margin-bottom:20px; color:#495b71; font-weight:700;">Actualizar las imagenes.</h3>
+                <form id="form-icon" action="/FilePDF" method="post" enctype="multipart/form-data" class="file-upload-form">
+                    @csrf
+                    <div> 
+                        <select name="pdf-update" id="pdf-update">
+                            <option value="" disabled selected>Seleccionar un PDF</option>
+                            @foreach ($htmls as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <label for="file" class="file-upload-label-update">
+                        <div class="file-upload-design">
+                        <svg viewBox="0 0 640 512" height="1em">
+                            <path
+                                d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"
+                            ></path>
+                        </svg>
+                        <span style="color: #000">Arrastra y Suelta</span>
+                        <span style="color: #000">o</span>
+                        <span class="browse-button">Browse file</span>
+                        </div>
+                        <input id="file" type="file" name="file" accept=".xlsx, .xls"/>
+                    </label>
+
+                    <span id="error-update" style="height:20px;color:#e64747;font-weight: 500;">
+                        Subir el excel guia y selecciona su plantilla.
+                    </span>
+
+                    <div class="div-button">
+                        <button type="button" class="btn" id="uploadButton-3">
+                            <i class="animation"></i>Enviar<i class="animation"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <i id="close-update" style="position: absolute;right:30px;top:30px;font-size:30px;cursor:pointer;color:#5d7ea7;" class="fa-solid fa-xmark"></i>
+        </div>
+
         <div class="content">
             <div class="nav">
                 @foreach ($htmls as $item)
-                    <a href="{{ route('images',['pdf'=>$item->slug]) }}">{{ $item->name }}</a>
+                    <a href="{{ route('images',['template'=>$item->slug]) }}">{{ $item->name }}</a>
                 @endforeach 
             </div>
+            
             @if ($content)
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    @foreach ($html->pdfImage as $item)
+                        <a href="{{ route('images', array_merge(request()->all(), ['pdf' => $item->name])) }}" style="color: #445569; font-weight: 700;">
+                            {{ $item->name }}
+                        </a>
+                    @endforeach
+                </div>
                 <div class="contenedor">
                     <div class="content-img">
                         <div class="title">
@@ -113,22 +163,46 @@
                         </div>
                         <div class="images">
                             @foreach ($html->images as $item)
-                                <div>
-                                    <a href="/images/{{ $item->url }}" target="__blanck">
-                                        <img class="imagenes" src="/images/{{ $item->url }}" alt="Image - {{ $item->url }}">
-                                    </a>
-                                    <span>
-                                        <i id="copy" class="fa-solid fa-copy" style="color:#495b71;" data-value="/images/{{ $item->url }}"></i>
-                                        <a href="{{ route('delete.images', ['id'=>$item->id]) }}">
-                                            <i class="fa-solid fa-trash" style="color: #e64747;"></i>
+                                @if ($pdfs)
+                                    <?php
+                                        // Decode the URL JSON only if $pdfs is set
+                                        $images = json_decode($pdfs->url, true);
+                                    ?>
+                                    @if ($images)
+                                        @foreach ($images as $url)
+                                            @if ('images/'.$item->url == $url)
+                                                <div>
+                                                    <a href="/images/{{ $item->url }}" target="__blanck">
+                                                        <img class="imagenes" src="/images/{{ $item->url }}" alt="Image - {{ $item->url }}">
+                                                    </a>
+                                                    <span>
+                                                        <i id="copy" class="fa-solid fa-copy" style="color:#495b71;" data-value="images/{{ $item->url }}"></i>
+                                                        <a href="{{ route('delete.images', ['id'=>$item->id]) }}">
+                                                            <i class="fa-solid fa-trash" style="color: #e64747;"></i>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @else
+                                    <div>
+                                        <a href="/images/{{ $item->url }}" target="__blanck">
+                                            <img class="imagenes" src="/images/{{ $item->url }}" alt="Image - {{ $item->url }}">
                                         </a>
-                                    </span>
-                                </div>
+                                        <span>
+                                            <i id="copy" class="fa-solid fa-copy" style="color:#495b71;" data-value="images/{{ $item->url }}"></i>
+                                            <a href="{{ route('delete.images', ['id'=>$item->id]) }}">
+                                                <i class="fa-solid fa-trash" style="color: #e64747;"></i>
+                                            </a>
+                                        </span>
+                                    </div>
+                                @endif
                             @endforeach
-                        </div>
+                        </div> 
                     </div>
                 </div>
-                <div class="contenedor">
+                <div class="contenedor" style="margin-top: 20px;">
                     <div class="content-img">
                         <div class="title">
                             <h2>
@@ -137,18 +211,42 @@
                         </div>
                         <div class="images">
                             @foreach ($html->icons as $item)
+                            @if ($pdfs)
+                                <?php
+                                    // Decode the URL JSON only if $pdfs is set
+                                    $icons = json_decode($pdfs->url, true);
+                                ?>
+                                @if ($icons)
+                                    @foreach ($icons as $url)
+                                        @if ('icon/'.$item->url == $url)
+                                            <div>
+                                                <a href="/icon/{{ $item->url }}" target="__blanck">
+                                                    <img class="icons" src="/icon/{{ $item->url }}" alt="Icon - {{ $item->url }}">
+                                                </a>
+                                                <span>
+                                                    <i id="copy" class="fa-solid fa-copy" style="color:#495b71;" data-value="icon/{{ $item->url }}"></i>
+                                                    <a href="{{ route('delete.icons', ['id'=>$item->id]) }}">
+                                                        <i class="fa-solid fa-trash" style="color: #e64747;"></i>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            @else
                                 <div>
                                     <a href="/icon/{{ $item->url }}" target="__blanck">
-                                        <img class="icons" src="/icon/{{ $item->url }}" alt="Image - {{ $item->url }}">
+                                        <img class="icons" src="/icon/{{ $item->url }}" alt="Icon - {{ $item->url }}">
                                     </a>
                                     <span>
-                                        <i class="fa-solid fa-copy" style="color:#495b71;" data-value="/icon/{{ $item->url }}"></i>
+                                        <i id="copy" class="fa-solid fa-copy" style="color:#495b71;" data-value="icon/{{ $item->url }}"></i>
                                         <a href="{{ route('delete.icons', ['id'=>$item->id]) }}">
                                             <i class="fa-solid fa-trash" style="color: #e64747;"></i>
                                         </a>
                                     </span>
                                 </div>
-                            @endforeach
+                            @endif
+                        @endforeach
                         </div>
                     </div>
                 </div>
@@ -178,6 +276,13 @@
                     <span>Agregar Icono</span>
                 </label>
             </form>
+
+            <form class="form-icon" id="upload-click">
+                <label>
+                    <i class="fa-solid fa-upload"></i>
+                    <span>Agregar Excel Guia para la Actualizacion</span>
+                </label>
+            </form>
         </div>
 
         <div id="alert-message" class="hidden info">
@@ -192,5 +297,6 @@
     <script src="/js/sendImages.js"></script>
     <script src="/js/sendIcon.js"></script>
     <script src="/js/copy.js"></script>
+    <script src="/js/update.js"></script>
 
 </html>

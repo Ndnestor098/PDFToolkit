@@ -20,6 +20,14 @@
                 <h1>PDFToolKit</h1>
                 <form id="form" action="/FilePDF" method="post" enctype="multipart/form-data" class="file-upload-form">
                     @csrf
+                    <div> 
+                        <select name="pdf" id="pdf">
+                            <option value="" disabled selected>Seleccionar un PDF</option>
+                            @foreach ($htmls as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <label for="file" class="file-upload-label">
                         <div class="file-upload-design">
                         <svg viewBox="0 0 640 512" height="1em">
