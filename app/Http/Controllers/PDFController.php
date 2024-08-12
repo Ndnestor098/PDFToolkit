@@ -11,8 +11,8 @@ class PDFController extends Controller
 {
     public function __invoke(Request $request, PDFServices $services, ReaderServices $read)
     {
-        $data = $request->json()->all();
-        // return $data = $read->readExcel('public/file/guia.xlsx', 1);
+        // $data = $request->json()->all();
+        $data = $read->readExcel('public/file/guia.xlsx')['PDF-2'];
 
         // Verificar si se obtuvo correctamente el JSON
         if (!$data || !is_array($data)) {
@@ -31,7 +31,7 @@ class PDFController extends Controller
         // Crear el PDF usando laravel-dompdf
         $pdf = PDF::loadView('pdf.pdf', compact('data'), $options);
         
-        return $pdf->download('template.pdf');
+        return $pdf->stream();
     }
 
     public function sendJSON(Request $request, ReaderServices $read)

@@ -136,7 +136,7 @@ async function getJSON(file, load) {
         }
 
         const json = await response.json();
-
+        console.log(json);
         handleFileUpload(json, load);
     } catch (error) {
         load.classList.add("hidden");

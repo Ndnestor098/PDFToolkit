@@ -39,8 +39,9 @@
             line-height:21px;;
             color:#000000;
             position:absolute;
-            top:210px;
+            top:105px;
             left:54px;
+            height: 310px;
             width:351px;
             text-align: justify;
         }
@@ -80,7 +81,7 @@
     </style>
 </head>
 <body>
-    {{-- ------------------ PAGINA 1 ------------------ --}}
+    {{-- ------------------ PAGINA 1 --------------------}}
     <div style="position:relative;width:793px;overflow:hidden;height:1120px;">
         <div style="position:absolute;top:45px;right:0;width:745px;height:805px;background-color:#02000000;border-top: 5px solid #fff;border-right: none;border-bottom: 5px solid #fff;border-left: 5px solid #fff;"></div>
 
@@ -324,7 +325,7 @@
         <img src="{{ $data['page-5']['image-global']['value'] ? $data['page-5']['image-global']['value'] : "images/pdf-1-img-7-default.png"}}" style="width:793px;height:746px"/>
         <b style="position:absolute;bottom:15px;left:35px;color:#fff">4</b>
         <div style="position:absolute;bottom:0px;right:0px;width:752px;height:10px;background-color:#0a1b2e;"></div>
-    </div>
+    </div> 
 
     {{-- ------------------ PAGINA 6 ------------------ --}}
     <div style="position:relative;width:793px;height:1122px;">
