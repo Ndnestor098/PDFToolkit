@@ -28,6 +28,10 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="select_pdf">
+                        <label for="select-pdf">PDF -</label>
+                        <input type="text" name="select-pdf" id="select-pdf">
+                    </div>
                     <label for="file" class="file-upload-label">
                         <div class="file-upload-design">
                         <svg viewBox="0 0 640 512" height="1em">

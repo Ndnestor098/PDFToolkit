@@ -11,8 +11,8 @@ class PDFController extends Controller
 {
     public function __invoke(Request $request, PDFServices $services, ReaderServices $read)
     {
-        // $data = $request->json()->all();
-        $data = $read->readExcel('public/file/guia.xlsx')['PDF-2'];
+        $data = $request->json()->all();
+        // $data = $read->readExcel('public/file/guia.xlsx')['PDF-2'];
 
         // Verificar si se obtuvo correctamente el JSON
         if (!$data || !is_array($data)) {

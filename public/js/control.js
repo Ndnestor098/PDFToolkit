@@ -53,6 +53,15 @@ async function handleFileUpload(jsonArray, load) {
 
         for (let index in jsonArray) {
             const data = jsonArray[index];
+            let selectPDF = document.getElementById("select-pdf").value;
+
+            if(selectPDF){
+                selectPDF = "PDF-" + selectPDF;
+
+                if(selectPDF != index){
+                    continue;
+                }
+            }
 
             let options = {
                 method: 'POST',
@@ -136,7 +145,7 @@ async function getJSON(file, load) {
         }
 
         const json = await response.json();
-        console.log(json);
+        
         handleFileUpload(json, load);
     } catch (error) {
         load.classList.add("hidden");

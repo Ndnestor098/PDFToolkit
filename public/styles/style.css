@@ -743,3 +743,15 @@ p{
         background-color: #000;
     }
 }
+
+
+.select_pdf{
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  font-weight: 600;
+
+  input{
+    color: #000;
+  }
+}
